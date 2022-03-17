@@ -1,0 +1,17 @@
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
+CLIENT_ID = "855467182800-lb0n7pki7mb37j884nquqlrhgi08s4uu.apps.googleusercontent.com"
+
+def getSub(token):
+    try:
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+
+        print(idinfo)
+
+        userid = idinfo['sub']
+
+        return userid
+
+    except ValueError:
+        return None
