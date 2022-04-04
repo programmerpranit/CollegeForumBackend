@@ -84,24 +84,24 @@ WSGI_APPLICATION = 'CollegeForum.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': 'college-forum',
-#         'ENFORCE_SCHEMA': False,
-#         'CLIENT': {
-#                 'host': 'mongodb+srv://college:25Q9BLe8XVAMFNzv@forum-cluster.x7jxl.mongodb.net/college-forum?retryWrites=true&w=majority',
-#                 'authMechanism':'SCRAM-SHA-1',
-#             }  
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'college-forum',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+                'host': 'mongodb+srv://college:25Q9BLe8XVAMFNzv@forum-cluster.x7jxl.mongodb.net/college-forum?retryWrites=true&w=majority',
+                'authMechanism':'SCRAM-SHA-1',
+            }  
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 
