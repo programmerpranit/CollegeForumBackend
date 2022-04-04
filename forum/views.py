@@ -1,38 +1,76 @@
-from django.shortcuts import render
-from .models import Question
+from CollegeForum.settings import SECRET_KEY
+from forum.serializers import AnswersSerializer, FullQuestionSerializer, QuestionSerializer
+from .models import Question, Answer
+from account.models import User
+from rest_framework.views import APIView
+import datetime, jwt
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 
 # make views here
 
+def verifyUser(token):
+    try:
+        decodedToken = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user = User.objects.filter(sub = decodedToken['sub']).first()
+        return user
+    except jwt.ExpiredSignatureError:
+        return None
+
+
 # getlist of questions
-def getListOfQuestions(request):
-    
-    # questionList = Question.objects.all()
-    # return questionList
-    pass
+class GetListOfQuestionsView(APIView):
+    def get(self, request):
+        list = Question.objects.all()
+        data = QuestionSerializer(list, many=True)
+        return Response(data=data.data, status=status.HTTP_200_OK)
+
+# to add question
+class AddQuestionView(APIView):
+    def post(self, request):
+        user = verifyUser(request.data['jwttoken'])
+        if user is None:
+            return Response({'error': 'Authorization Failed'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        question_text = request.data['question_text']
+        question = Question.objects.create(question_text=question_text, user = user)
+        question.save()
+        data = QuestionSerializer(question)
+        return Response(data=data.data, status=status.HTTP_201_CREATED)
+
+        
+# to add answer
+class AddAnswerView(APIView):
+    def post(self, request):
+        user = verifyUser(request.data['jwttoken'])
+        if user is None:
+            return Response({'error': 'Authorization Failed'}, status=status.HTTP_401_UNAUTHORIZED)
+        answer_text = request.data['answer_text']
+        qid = request.data['qid']
+        question = Question.objects.filter(qid = qid).first()
+        answer = Answer.objects.create(answer_text=answer_text, question = question, user = user)
+        answer.save()
+        data = AnswersSerializer(answer)
+        return Response(data=data.data, status=status.HTTP_201_CREATED)
 
 
-# add question 
-def addQuestion(request):
-    # verify jwt token
-    # get all parameters from request
-    # create a Question object 
-    # save the object
-    # return 200
-    pass
+class FullQuestionView(APIView):
+    def get(self, request):
+        qid = request.data['qid']
+        question = Question.objects.filter(qid = qid).first()
+        answers = Answer.objects.filter(question = qid).all()
+        serializedAnswers = AnswersSerializer(answers, many=True)
+        serializedQuestion = FullQuestionSerializer(question)
+        return Response({'question':serializedQuestion.data, 'answers': serializedAnswers.data}, status=status.HTTP_200_OK)
 
 
-def addAnswer(request):
-    # verify jwt token 
-    # GET Question id
-    # create ans object
-    # add forgein key as QuestionId
-    # save Ans object
-    pass
+class SearchQuestionView(APIView):
+    def get(self, request):
+        querry = request.data['search_querry']
+        questions = Question.objects.filter(question_text__icontains=querry)
 
-def getFullQuestion(request):
-    # get Question by Question id
-    # search for answers with same forgein key 
-    # return object with question and answer 
-    pass
+        questionsSerializer = QuestionSerializer(questions, many=True)
+
+        return Response(questionsSerializer.data, status=status.HTTP_200_OK)

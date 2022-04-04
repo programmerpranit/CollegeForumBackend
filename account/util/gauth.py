@@ -7,11 +7,15 @@ def getSub(token):
     try:
         idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
 
-        print(idinfo)
-
         userid = idinfo['sub']
+        useremail = idinfo['email']
 
-        return userid
+        data = {
+            'sub' : userid,
+            'email' : useremail
+        }
+        
+        return data
 
     except ValueError:
         return None
