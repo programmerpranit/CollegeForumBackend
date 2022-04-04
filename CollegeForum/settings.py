@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9u)9j6a*b6lh(pt5i%t=drr7@z#(^m5yw05&1x&d7^#pvk8q_g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['collegeforumacpce.herokuapp.com', '127.0.0.1']
 
@@ -85,16 +85,16 @@ WSGI_APPLICATION = 'CollegeForum.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd74m54jfrq3bmf',
-#         'USER': 'asystlpvsilgkh',
-#         'PASSWORD': '04ad18cead135bcc2e85c1728203e3e48151715110384a7cf42090b7fda3cdac',
-#         'HOST': 'ec2-34-197-84-74.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd74m54jfrq3bmf',
+        'USER': 'asystlpvsilgkh',
+        'PASSWORD': '04ad18cead135bcc2e85c1728203e3e48151715110384a7cf42090b7fda3cdac',
+        'HOST': 'ec2-34-197-84-74.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # DATABASES = {
@@ -109,12 +109,12 @@ WSGI_APPLICATION = 'CollegeForum.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
