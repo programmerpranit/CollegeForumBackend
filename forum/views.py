@@ -58,7 +58,7 @@ class AddAnswerView(APIView):
 
 class FullQuestionView(APIView):
     def get(self, request):
-        qid = request.data['qid']
+        qid = self.request.query_params.get('qid')
         question = Question.objects.filter(qid = qid).first()
         answers = Answer.objects.filter(question = qid).all()
         serializedAnswers = AnswersSerializer(answers, many=True)
