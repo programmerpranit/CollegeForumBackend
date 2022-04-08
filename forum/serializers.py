@@ -6,30 +6,30 @@ from forum.models import Answer, Question
 class UserYearSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['name','year_of_study']
+        fields = ['uid','name','year_of_study']
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    user = UserYearSerializer(Question.user, read_only=True)
+    owner = UserYearSerializer(Question.user, read_only=True)
     class Meta:
         model = Question
-        fields = ['qid', 'question_text', 'timestamp', 'user']
+        fields = ['qid', 'question_text', 'timestamp', 'owner']
 
 class AnswersSerializer(serializers.ModelSerializer):
-    user = UserYearSerializer(Answer.user, read_only=True)
+    owner = UserYearSerializer(Answer.user, read_only=True)
     class Meta:
         model = Answer
-        fields = ['aid', 'user', 'answer_text', 'likes', 'dislikes', 'timestamp']
+        fields = ['aid', 'owner', 'answer_text', 'likes', 'dislikes', 'timestamp']
 
 
 class FullQuestionSerializer(serializers.ModelSerializer):
     # a = Answer.objects.filter(question = int(Question.qid)).all()
     
-    user = UserYearSerializer(Answer.user, read_only=True)
+    owner = UserYearSerializer(Answer.user, read_only=True)
     # answers = AnswersSerializer(data=a)
     class Meta:
         model = Question
-        fields = ['qid', 'question_text', 'timestamp', 'user']
+        fields = ['qid', 'question_text', 'timestamp', 'owner']
 
 
 
