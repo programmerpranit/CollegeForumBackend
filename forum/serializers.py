@@ -10,8 +10,12 @@ class UserYearSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    # owner = UserYearSerializer(Question.user, read_only=True)
-    owner = User.objects.get(uid = Question.user)
+    
+    user = Question.user.get_object
+
+    owner = UserYearSerializer(user, read_only=True)
+
+
     class Meta:
         model = Question
         fields = ['qid', 'question_text', 'timestamp', 'owner']
