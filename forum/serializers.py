@@ -1,4 +1,3 @@
-from dataclasses import fields
 from rest_framework import serializers
 from account.models import User
 from forum.models import Answer, Question
@@ -6,19 +5,22 @@ from forum.models import Answer, Question
 class UserYearSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['uid','name','year_of_study']
+        fields = ['name','year_of_study']
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     
-    user = Question.user.get_object
+    # user = Question.user.get_object
+    # print(Question.user.uid)
 
-    owner = UserYearSerializer(user, read_only=True)
-
+    user = UserYearSerializer(Question.user, read_only=True)
+    # print(owner.data)
 
     class Meta:
         model = Question
-        fields = ['qid', 'question_text', 'timestamp', 'owner']
+        fields = ['qid', 'question_text', 'timestamp', 'user']
+
+
 
 class AnswersSerializer(serializers.ModelSerializer):
     owner = UserYearSerializer(Answer.user, read_only=True)
