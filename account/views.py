@@ -1,4 +1,5 @@
 import datetime, jwt
+import email
 from rest_framework.views import APIView
 
 from CollegeForum.settings import SECRET_KEY
@@ -38,7 +39,7 @@ def authenticate(request):
     user = User.objects.filter(sub = data['sub']).first()
 
     if user is None:
-        user = User.objects.create(sub = data['sub'], username = data['sub'])
+        user = User.objects.create(sub = data['sub'], username = data['sub'], email= data['email'])
         user.save()
         return Response({'token': token}, status=status.HTTP_201_CREATED)
     else:
@@ -57,21 +58,21 @@ class UserView(APIView):
 
     # for editing user info
     # require auth 
-    def put(self, request):
+    def post(self, request):
         user = verifyUser(request.data['jwttoken'])
         if user is None:
             return Response({'error': 'Invalid Token'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user.prn = request.data.get('prn')
-            user.email = request.data.get('email')
             user.name = request.data.get('name')
             user.year_of_study = request.data.get('year_of_study')
             user.save()
         except:
-            return Response({'error': 'Unknown error occured Please check your PRN Number and Email. It needs to be unique'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Unknown error occured Please check your PRN Number. It needs to be unique'}, status=status.HTTP_400_BAD_REQUEST)
 
         newUser = UserSerializer(user, partial=True)
+        newUser.save()
 
         return Response(newUser.data, status=status.HTTP_200_OK)
 
