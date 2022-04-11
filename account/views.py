@@ -74,7 +74,7 @@ class UserView(APIView):
         newUser = UserSerializer(user, partial=True)
         
 
-        return Response(newUser.data, status=status.HTTP_200_OK)
+        return Response(newUser.data, status=status.HTTP_201_CREATED)
 
     
 
