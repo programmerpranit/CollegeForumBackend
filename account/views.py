@@ -19,7 +19,6 @@ def verifyUser(token):
         return None
 
 
-
 @api_view(['POST'])
 def authenticate(request): 
 
