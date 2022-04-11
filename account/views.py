@@ -72,7 +72,7 @@ class UserView(APIView):
             return Response({'error': 'Unknown error occured Please check your PRN Number. It needs to be unique'}, status=status.HTTP_400_BAD_REQUEST)
 
         newUser = UserSerializer(user, partial=True)
-        newUser.save()
+        
 
         return Response(newUser.data, status=status.HTTP_200_OK)
 
