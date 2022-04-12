@@ -23,20 +23,20 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class AnswersSerializer(serializers.ModelSerializer):
-    owner = UserYearSerializer(Answer.user, read_only=True)
+    user = UserYearSerializer(Answer.user, read_only=True)
     class Meta:
         model = Answer
-        fields = ['aid', 'owner', 'answer_text', 'likes', 'dislikes', 'timestamp']
+        fields = ['aid', 'user', 'answer_text', 'likes', 'dislikes', 'timestamp']
 
 
 class FullQuestionSerializer(serializers.ModelSerializer):
     # a = Answer.objects.filter(question = int(Question.qid)).all()
     
-    owner = UserYearSerializer(Answer.user, read_only=True)
+    user = UserYearSerializer(Answer.user, read_only=True)
     # answers = AnswersSerializer(data=a)
     class Meta:
         model = Question
-        fields = ['qid', 'question_text', 'timestamp', 'owner']
+        fields = ['qid', 'question_text', 'timestamp', 'user']
 
 
 
