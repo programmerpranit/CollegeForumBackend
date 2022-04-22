@@ -3,11 +3,14 @@ from account.models import User
 
 # Create your models here.
 
+def nameFile(instance, filename):
+    return '/'.join(['images', str(instance.name), filename])
+
 class Question(models.Model):
     qid = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question_text = models.TextField(max_length=1000, default="")
-    # image = models.ImageField(default="")
+    image = models.ImageField(upload_to=nameFile , blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     # class Meta:
