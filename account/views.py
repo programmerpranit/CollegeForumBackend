@@ -43,6 +43,8 @@ def authenticate(request):
         user.save()
         return Response({'token': token}, status=status.HTTP_201_CREATED)
     else:
+        if user.name == "":
+            return Response({'token': token}, status=status.HTTP_201_CREATED)
         return Response({'token': token}, status=status.HTTP_200_OK)
 
 
