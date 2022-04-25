@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 import datetime, jwt
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
 
 # Create your views here.
 
@@ -74,8 +75,12 @@ class FullQuestionView(APIView):
 
 class SearchQuestionView(APIView):
     def get(self, request):
-        querry = request.data['search_querry']
-        questions = Question.objects.filter(question_text__icontains=querry)
+        q = self.request.query_params.get('q')
+
+        query = SearchQuery(q)
+        vector = SearchVector('question_text')
+
+        questions = Question.objects.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.001).order_by('-rank')
 
         questionsSerializer = QuestionSerializer(questions, many=True)
 
