@@ -36,12 +36,12 @@ class AddQuestionView(APIView):
             return Response({'error': 'Authorization Failed'}, status=status.HTTP_401_UNAUTHORIZED)
         
         question_text = request.data['question_text']
-        question_image = request.data['question_image']
+        # question_image = request.data['question_image']
 
         question = Question.objects.create(question_text=question_text, user = user)
 
-        if question_image is not None:
-            question.image = question_image
+        # if question_image is not None:
+        #     question.image = question_image
 
         question.save()
         data = QuestionSerializer(question)
