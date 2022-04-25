@@ -1,5 +1,6 @@
 from django.db import models
 from account.models import User
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -10,7 +11,8 @@ class Question(models.Model):
     qid = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question_text = models.TextField(max_length=1000, default="")
-    image = models.ImageField(upload_to=nameFile , blank=True, null=True)
+    # image = models.ImageField(upload_to=nameFile , blank=True, null=True)
+    image = CloudinaryField('image', null=True, blank = True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     # class Meta:

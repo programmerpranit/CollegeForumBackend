@@ -36,7 +36,7 @@ class FullQuestionSerializer(serializers.ModelSerializer):
     # answers = AnswersSerializer(data=a)
     class Meta:
         model = Question
-        fields = ['qid', 'question_text', 'timestamp', 'user']
+        fields = ['qid', 'question_text', 'timestamp', 'image', 'user']
 
 
 

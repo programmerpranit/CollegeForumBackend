@@ -162,6 +162,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+import cloudinary
+
+cloudinary.config( 
+  cloud_name = "college-forum", 
+  api_key = "412527192542124", 
+  api_secret = "e5xoiWRjWKpFTEqND7BPhJClzgM" 
+)
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
