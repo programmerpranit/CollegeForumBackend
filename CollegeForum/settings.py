@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'CollegeForum.wsgi.application'
 #         'NAME': 'college-forum',
 #         'ENFORCE_SCHEMA': False,
 #         'CLIENT': {
-#                 'host': 'mongodb+srv://college:25Q9BLe8XVAMFNzv@forum-cluster.x7jxl.mongodb.net/college-forum?retryWrites=true&w=majority',
+#                 'host': 'your mongodb string here',
 #                 'authMechanism':'SCRAM-SHA-1',
 #             }  
 #     }
